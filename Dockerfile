@@ -3,6 +3,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+# public ディレクトリが存在することを確認
+RUN mkdir -p public
 RUN npm run build
 
 FROM nginx:alpine
