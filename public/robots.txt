@@ -1,0 +1,5 @@
+cat > public/robots.txt << EOL
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Disallow:
+EOL
