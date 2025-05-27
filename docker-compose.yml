@@ -1,14 +1,14 @@
 version: '3'
 services:
-backend:
-  build: ./src/backend
-  ports:
-    - "8000:8000"
-  environment:
-    - DATABASE_URL=postgresql://postgres:postgres@db:5432/operation_contact
-    - SECRET_KEY=your_secret_key
-  depends_on:
-    - db
+  backend:
+    build: ./src/backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/operation_contact
+      - SECRET_KEY=your_secret_key
+    depends_on:
+      - db
   
   frontend:
     build: .
