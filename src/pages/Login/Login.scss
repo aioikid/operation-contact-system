@@ -1,0 +1,209 @@
+// src/pages/Login/Login.scss
+@import '../../styles/variables.scss';
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: $color-white;
+  position: relative;
+  overflow: hidden;
+  
+  // グラデーションアクセント（左上と右下のコーナー）
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    z-index: 0;
+  }
+  
+  &::before {
+    top: -150px;
+    left: -150px;
+    background: linear-gradient(135deg, $color-pink 0%, $color-blue 100%);
+    opacity: 0.1;
+  }
+  
+  &::after {
+    bottom: -150px;
+    right: -150px;
+    background: linear-gradient(135deg, $color-blue 0%, $color-pink 100%);
+    opacity: 0.1;
+  }
+}
+
+.login-header {
+  text-align: center;
+  padding: 2rem 0;
+  z-index: 1;
+  
+  .system-name {
+    font-size: $font-size-xxlarge;
+    font-weight: bold;
+    margin: 0;
+    color: $color-black;
+  }
+  
+  .system-subname {
+    font-size: $font-size-medium;
+    font-weight: normal;
+    margin: 0.5rem 0 0;
+    color: $color-black;
+    letter-spacing: 2px;
+  }
+}
+
+.login-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  z-index: 1;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  background-color: $color-white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  
+  .error-message {
+    background-color: #ffebee;
+    color: #d32f2f;
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-size: $font-size-small;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: $font-size-small;
+      color: $color-black;
+    }
+    
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      font-size: $font-size-medium;
+      
+      &:focus {
+        outline: none;
+        border-color: $color-blue;
+        box-shadow: 0 0 0 2px rgba($color-blue, 0.2);
+      }
+    }
+  }
+  
+  .login-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: $color-blue;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: $font-size-medium;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    
+    &:hover {
+      background-color: darken($color-blue, 10%);
+    }
+  }
+  
+  .forgot-password {
+    text-align: center;
+    margin-top: 1rem;
+    
+    a {
+      color: $color-blue;
+      text-decoration: none;
+      font-size: $font-size-small;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.announcements {
+  margin-top: auto;
+  padding: 1.5rem;
+  background-color: #f5f5f5;
+  z-index: 1;
+  
+  h3 {
+    font-size: $font-size-medium;
+    margin: 0 0 1rem;
+    color: $color-black;
+  }
+  
+  .announcement-item {
+    padding: 0.75rem;
+    background-color: $color-white;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    
+    p {
+      margin: 0;
+      font-size: $font-size-small;
+      color: $color-black;
+    }
+  }
+}
+
+.footer {
+  text-align: center;
+  padding: 1rem;
+  z-index: 1;
+  
+  a {
+    color: $color-blue;
+    text-decoration: none;
+    font-size: $font-size-small;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// レスポンシブデザイン
+@media (max-width: 768px) {
+  .login-form {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-header {
+    padding: 1.5rem 0;
+    
+    .system-name {
+      font-size: $font-size-xlarge;
+    }
+    
+    .system-subname {
+      font-size: $font-size-small;
+    }
+  }
+  
+  .login-form-container {
+    padding: 1rem;
+  }
+  
+  .login-form {
+    padding: 1rem;
+  }
+}
