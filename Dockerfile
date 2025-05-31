@@ -1,27 +1,33 @@
-FROM node:14-alpine as build
-
-WORKDIR /app
-
-# パッケージファイルをコピーして依存関係をインストール
-COPY package*.json ./
-RUN npm install
-
-# ソースコードをコピー
-COPY . .
-
-# publicディレクトリが存在することを確認
-RUN mkdir -p public
-
-# publicディレクトリに必要なファイルを作成
-RUN echo '<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>運用連絡体制WebUIシステム</title></head><body><div id="root"></div></body></html>' > public/index.html
-RUN echo '{"short_name":"運用連絡体制","name":"運用連絡体制WebUIシステム","icons":[],"start_url":".","display":"standalone","theme_color":"#000000","background_color":"#ffffff"}' > public/manifest.json
-RUN echo '# https://www.robotstxt.org/robotstxt.html\nUser-agent: *\nDisallow:' > public/robots.txt
-
-# ビルド実行
-RUN npm run build
-
+# 静的ファイル配置用のシンプルなDockerfile
 FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# 静的ファイルをコピー
+COPY public/ /usr/share/nginx/html/
+
+# Nginxの設定
+RUN echo 'server { \
+    listen 80; \
+    server_name localhost; \
+    \
+    location / { \
+        root /usr/share/nginx/html; \
+        index index.html; \
+        try_files $uri $uri/ /index.html; \
+    } \
+    \
+    location /api { \
+        proxy_pass http://backend:8000; \
+        proxy_set_header Host $host; \
+        proxy_set_header X-Real-IP $remote_addr; \
+    } \
+}' > /etc/nginx/conf.d/default.conf
+
+# セキュリティ強化のためにnginxユーザーで実行
+RUN touch /var/run/nginx.pid && \
+    chown -R nginx:nginx /var/run/nginx.pid && \
+    chown -R nginx:nginx /var/cache/nginx && \
+    chown -R nginx:nginx /usr/share/nginx/html
+
+USER nginx
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
